@@ -1,0 +1,693 @@
+:root {
+    --deep-space: #0a192f;
+    --starlight: #ccd6f6;
+    --neon-blue: #64ffda;
+    --galactic-purple: #6c63ff;
+    --void-black: #020c1b;
+    --glass-blur: 10px;
+    --transition-fast: 0.3s ease;
+    --radius-lg: 1rem;
+    --radius-md: 0.75rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.25rem;
+    --spacing-sm: 0.75rem;
+    --spacing-xl: 4rem;
+    --section-gap: 3rem;
+    --pending-orange: #ffa500;
+    --approved-green: #32cd32;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --input-bg: rgba(255, 255, 255, 0.08);
+    --input-border: rgba(204, 214, 246, 0.3);
+    --text-light: rgba(204, 214, 246, 0.8);
+    --text-muted: rgba(204, 214, 246, 0.5);
+    --table-header-bg: rgba(100, 255, 218, 0.1);
+    --table-border: rgba(204, 214, 246, 0.1);
+    --positive-green: #32cd32;
+
+    /* Promijenjena boja za upozorenja i manjak */
+    --attention-orange: #FF8C00; /* Tamnija narančasta, manje agresivna od crvene */
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+.finance-planner {
+    padding: var(--spacing-lg) 5%;
+    text-align: center;
+    max-width: 1200px;
+    margin: var(--spacing-lg) auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(to bottom, rgba(10, 25, 47, 0.85), rgba(2, 12, 27, 0.9));
+    backdrop-filter: blur(var(--glass-blur));
+    animation: slideUp 0.6s ease-out both;
+    color: var(--starlight);
+    display: flex;
+    flex-direction: column;
+}
+
+.finance-planner h2 {
+    font-size: 2.5rem;
+    color: var(--neon-blue);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+}
+
+.finance-planner h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--neon-blue);
+}
+
+.finance-planner .section-description {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xl);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.planner-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 2px solid rgba(100, 255, 218, 0.1);
+    padding-bottom: 10px;
+}
+
+.planner-tabs button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-bottom var(--transition-fast);
+    border-radius: var(--radius-md);
+}
+
+.planner-tabs button:hover {
+    color: var(--starlight);
+    background-color: rgba(100, 255, 218, 0.05);
+}
+
+.planner-tabs button.active {
+    color: var(--neon-blue);
+    border-bottom: 2px solid var(--neon-blue);
+    background-color: rgba(100, 255, 218, 0.1);
+    font-weight: bold;
+}
+
+.planner-content > div {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(204, 214, 246, 0.1);
+    animation: fadeIn 0.4s ease-out forwards;
+    text-align: left;
+}
+
+.planner-content h3 {
+    font-size: 1.8rem;
+    color: var(--neon-blue);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.planner-content label {
+    display: block;
+    font-size: 1rem;
+    color: var(--starlight);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.planner-content label .icon {
+    margin-right: 8px;
+    color: var(--neon-blue);
+}
+
+.planner-content input[type="text"],
+.planner-content input[type="number"],
+.planner-content input[type="date"],
+.planner-content select,
+.planner-content textarea {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--starlight);
+    font-size: 1rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.planner-content input:focus,
+.planner-content select:focus,
+.planner-content textarea:focus {
+    outline: none;
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+}
+
+.cta-button, .secondary-button {
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, var(--neon-blue), var(--galactic-purple));
+    color: var(--void-black);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
+}
+
+.secondary-button {
+    background: none;
+    border: 1px solid rgba(204, 214, 246, 0.4);
+    color: var(--text-light);
+}
+
+.secondary-button:hover {
+    background-color: rgba(204, 214, 246, 0.1);
+    color: var(--starlight);
+    border-color: var(--starlight);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.small-button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+}
+
+.notification {
+    padding: 10px 15px;
+    border-radius: var(--radius-md);
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.notification.warning {
+    background-color: rgba(255, 165, 0, 0.15);
+    color: var(--pending-orange);
+    border: 1px solid var(--pending-orange);
+}
+
+.notification.danger {
+    background-color: rgba(255, 140, 0, 0.15); /* Koristi attention-orange za pozadinu */
+    color: var(--attention-orange); /* Koristi attention-orange za tekst */
+    border: 1px solid var(--attention-orange);
+}
+
+.recharts-wrapper {
+    margin-top: var(--spacing-lg);
+}
+
+.recharts-tooltip-wrapper {
+    background-color: rgba(10, 25, 47, 0.9) !important;
+    border: 1px solid var(--neon-blue) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 10px !important;
+    color: var(--starlight) !important;
+    font-size: 0.9rem;
+}
+
+.recharts-tooltip-item-list .recharts-tooltip-item {
+    color: var(--starlight) !important;
+}
+
+.monthly-budget-section .budget-balance-summary {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    padding: 15px;
+    border-radius: var(--radius-md);
+    background-color: rgba(100, 255, 218, 0.08);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+.budget-balance-summary .balance-status {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--starlight);
+}
+
+.budget-balance-summary .balance-status.positive {
+    color: var(--approved-green);
+}
+
+.budget-balance-summary .balance-status.negative {
+    color: var(--attention-orange); /* Koristi attention-orange */
+}
+
+
+.monthly-budget-section .budget-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.budget-item {
+    background-color: rgba(100, 255, 218, 0.05);
+    border: 1px solid rgba(100, 255, 218, 0.15);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: left;
+}
+
+.budget-item.income-item {
+    background-color: rgba(50, 205, 50, 0.05); /* Zelenija pozadina za primanja */
+    border: 1px solid rgba(50, 205, 50, 0.15);
+}
+
+.budget-item label {
+    font-size: 1rem;
+    color: var(--starlight);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.budget-item input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: rgba(204, 214, 246, 0.1);
+    border-radius: var(--radius-md);
+    height: 15px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(204, 214, 246, 0.15);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--neon-blue);
+    width: 0%;
+    border-radius: var(--radius-md);
+    transition: width 0.5s ease-out, background-color 0.5s ease-out;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--void-black);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.progress-bar-container.large-bar {
+    height: 25px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.progress-bar-container.large-bar .progress-text {
+    font-size: 1rem;
+}
+
+
+.spent-info {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.add-category-section {
+    display: flex;
+    gap: 10px;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    align-items: center;
+}
+
+.add-category-section input {
+    flex-grow: 1;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+}
+
+.add-category-section button {
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+
+.budget-notifications {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: rgba(255, 165, 0, 0.08);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+}
+
+.budget-notifications h4 {
+    color: var(--pending-orange);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.budget-notifications .notification {
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: normal;
+    font-size: 0.95rem;
+}
+
+.budget-chart {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+}
+
+.budget-chart h4 {
+    font-size: 1.5rem;
+    color: var(--starlight);
+    margin-bottom: var(--spacing-md);
+}
+
+.chart-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-md);
+}
+
+.transactions-section .transaction-form,
+.transactions-section .transaction-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.transactions-section .transaction-form .form-group:last-of-type {
+    grid-column: 1 / -1;
+}
+
+.transactions-section .transaction-form button {
+    grid-column: 1 / -1;
+}
+
+.transactions-section .transactions-list {
+    margin-top: var(--spacing-lg);
+}
+
+.transactions-list h4 {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--starlight);
+}
+
+.transactions-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-md);
+}
+
+.transactions-list th, .transactions-list td {
+    border: 1px solid var(--table-border);
+    padding: 10px;
+    text-align: left;
+    color: var(--starlight);
+}
+
+.transactions-list th {
+    background-color: var(--table-header-bg);
+    color: var(--neon-blue);
+    font-weight: bold;
+}
+
+.transactions-list tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.transactions-list .income-row {
+    color: var(--approved-green);
+}
+.transactions-list .expense-row {
+    color: var(--attention-orange); /* Koristi attention-orange za redove rashoda */
+}
+
+.transactions-list .secondary-button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 15px;
+    border-color: rgba(255, 140, 0, 0.5); /* Koristi attention-orange za border */
+    color: var(--attention-orange); /* Koristi attention-orange za tekst */
+}
+.transactions-list .secondary-button:hover {
+    background-color: rgba(255, 140, 0, 0.1); /* Koristi attention-orange za hover pozadinu */
+}
+
+.no-data-message {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: var(--spacing-md);
+}
+
+.transaction-charts {
+    margin-top: var(--spacing-xl);
+}
+.transaction-charts h4 {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--starlight);
+}
+
+
+.financial-goals-section .goal-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+.financial-goals-section .goal-form button {
+    grid-column: 1 / -1;
+}
+
+.goals-list {
+    margin-top: var(--spacing-lg);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.goal-item {
+    background-color: rgba(108, 99, 255, 0.05);
+    border: 1px solid rgba(108, 99, 255, 0.15);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.goal-item p {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+.goal-item .goal-name {
+    font-size: 1.1rem;
+    color: var(--starlight);
+    margin-bottom: 10px;
+}
+
+.goal-item .secondary-button {
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+.ai-insights-section, .annual-overview-section {
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    border-top: 1px solid rgba(100, 255, 218, 0.15);
+    background: rgba(10, 25, 47, 0.9);
+}
+.ai-insights-section h3, .annual-overview-section h3 {
+    color: var(--neon-blue);
+}
+.ai-insights-section .tips-list, .annual-overview-section .overview-text {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+.ai-insights-section .tips-list .tip-item {
+    background-color: rgba(100, 255, 218, 0.08);
+    border-left: 3px solid var(--neon-blue);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+}
+.ai-insights-section .tips-list .tip-item strong {
+    color: var(--starlight);
+}
+.overview-text strong {
+    color: var(--neon-blue);
+}
+
+/* Stil za mjesečni manjak tekstualni prikaz */
+.ai-insights-section .monthly-deficit-insight {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: rgba(255, 140, 0, 0.1); /* Blago narančasta pozadina */
+    border: 1px solid var(--attention-orange);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.ai-insights-section .monthly-deficit-insight h4 {
+    color: var(--attention-orange); /* Naslov u narančastoj boji */
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.ai-insights-section .monthly-deficit-insight strong {
+    color: var(--attention-orange);
+}
+
+.ai-insights-section .monthly-deficit-insight .chart-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .finance-planner {
+        padding: var(--spacing-md) 3%;
+    }
+    .finance-planner h2 {
+        font-size: 2rem;
+    }
+    .planner-tabs button {
+        font-size: 1rem;
+        padding: 8px 15px;
+    }
+    .planner-content > div {
+        padding: var(--spacing-md);
+    }
+    .planner-content h3 {
+        font-size: 1.5rem;
+    }
+    .cta-button, .secondary-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+    .small-button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    .transactions-section .transaction-form,
+    .transactions-section .transaction-filters,
+    .financial-goals-section .goal-form {
+        grid-template-columns: 1fr;
+    }
+    .transactions-list th, .transactions-list td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    .goals-list {
+        grid-template-columns: 1fr;
+    }
+    .add-category-section {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .add-category-section input,
+    .add-category-section button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .finance-planner {
+        padding: var(--spacing-sm) 2%;
+    }
+    .finance-planner h2 {
+        font-size: 1.8rem;
+    }
+    .section-description {
+        font-size: 0.9rem;
+    }
+    .planner-tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .planner-tabs button {
+        width: 100%;
+        text-align: center;
+    }
+    .planner-content h3 {
+        font-size: 1.3rem;
+    }
+    .planner-content input, .planner-content select, .planner-content textarea {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .cta-button, .secondary-button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}
