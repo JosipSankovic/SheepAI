@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Contacts.css';
 
+// Hardkodirani korisnici
 const initialUsers = [
   { id: '1', name: 'Ana Horvat', avatar: null },
   { id: '2', name: 'Marko Perić', avatar: null },
@@ -20,7 +21,11 @@ const Contact = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Novo stanje za učitavanje
+  const [transactionMessage, setTransactionMessage] = useState(''); // Novo stanje za poruke o transakciji
+  const [messageType, setMessageType] = useState(''); // 'success' ili 'error'
 
+  // Funkcija za upload avatara
   const handleAvatarUpload = (event, userId) => {
     const file = event.target.files[0];
     if (file) {
@@ -36,33 +41,77 @@ const Contact = () => {
     }
   };
 
+  // Otvaranje modala
   const openModal = (user) => {
     setSelectedUser(user);
     setAmount('');
     setDescription('');
+    setTransactionMessage(''); // Resetiraj poruke pri otvaranju
+    setMessageType('');
     setIsModalOpen(true);
   };
 
+  // Zatvaranje modala
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
+    setTransactionMessage('');
+    setMessageType('');
+  };
+
+  // Simulacija API poziva
+  const simulateApiCall = (data) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // Simuliramo nasumični uspjeh/neuspjeh
+        const success = Math.random() > 0.3; // 70% šanse za uspjeh
+
+        if (success) {
+          resolve({ status: 'success', message: 'Transakcija uspješno obrađena.' });
+        } else {
+          reject({ status: 'error', message: 'Došlo je do greške prilikom obrade transakcije.' });
+        }
+      }, 1500); // Simuliramo 1.5 sekundi kašnjenja mreže
+    });
   };
 
   // Potvrda akcije (dodaj/zatraži novac)
-  const handleConfirmAction = (actionType) => {
-    if (!amount || isNaN(parseFloat(amount))) {
-      alert('Molimo unesite valjan iznos.');
+  const handleConfirmAction = async (actionType) => {
+    if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+      setTransactionMessage('Molimo unesite valjan pozitivan iznos.');
+      setMessageType('error');
       return;
     }
 
-    const summary = `
-      Korisnik: ${selectedUser.name}
-      Akcija: ${actionType === 'add' ? 'Dodaj novac' : 'Zatraži novac'}
-      Iznos: ${parseFloat(amount).toFixed(2)} Euro
-      Opis: ${description || 'Nema opisa'}
-    `;
-    alert(summary);
-    closeModal();
+    setIsLoading(true); // Prikaži stanje učitavanja
+    setTransactionMessage(''); // Resetiraj poruke
+    setMessageType('');
+
+    const transactionData = {
+      userId: selectedUser.id,
+      userName: selectedUser.name,
+      action: actionType,
+      amount: parseFloat(amount).toFixed(2),
+      description: description || 'Nema opisa',
+    };
+
+    try {
+      const response = await simulateApiCall(transactionData);
+      setTransactionMessage(response.message);
+      setMessageType('success');
+      console.log('Simulirani API uspjeh:', response.message, transactionData);
+
+    } catch (error) {
+      setTransactionMessage(error.message);
+      setMessageType('error');
+      console.error('Simulirana API greška:', error.message, transactionData);
+
+    } finally {
+      setIsLoading(false); // Sakrij stanje učitavanja
+      setTimeout(() => {
+        closeModal();
+      }, 2000); // Zatvori modal nakon 2 sekunde
+    }
   };
 
   return (
@@ -106,11 +155,11 @@ const Contact = () => {
       {isModalOpen && selectedUser && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-button" onClick={closeModal}>&times;</button>
+            <button className="modal-close-button" onClick={closeModal} disabled={isLoading}>&times;</button>
             <h3>Financijska transakcija za {selectedUser.name}</h3>
             <div className="modal-body">
               <div className="input-group">
-                <label htmlFor="amount-input">Iznos (Euro):</label>
+                <label htmlFor="amount-input">Iznos u eurima:</label>
                 <input
                   id="amount-input"
                   type="number"
@@ -119,6 +168,7 @@ const Contact = () => {
                   onChange={(e) => setAmount(e.target.value)}
                   min="0"
                   step="0.01"
+                  disabled={isLoading}
                 />
               </div>
               <div className="input-group">
@@ -128,12 +178,32 @@ const Contact = () => {
                   placeholder="Dodajte kratak opis transakcije"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  disabled={isLoading}
                 ></textarea>
               </div>
+
+              {transactionMessage && (
+                <div className={`transaction-message ${messageType}`}>
+                  {transactionMessage}
+                </div>
+              )}
+
             </div>
             <div className="modal-footer">
-              <button className="cta-button add-button" onClick={() => handleConfirmAction('add')}>Dodaj novac</button>
-              <button className="cta-button request-button" onClick={() => handleConfirmAction('request')}>Zatraži novac</button>
+              <button
+                className="cta-button add-button"
+                onClick={() => handleConfirmAction('add')}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Šaljem...' : 'Dodaj novac'}
+              </button>
+              <button
+                className="cta-button request-button"
+                onClick={() => handleConfirmAction('request')}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Tražim...' : 'Zatraži novac'}
+              </button>
             </div>
           </div>
         </div>

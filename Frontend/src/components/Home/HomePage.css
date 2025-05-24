@@ -227,7 +227,7 @@ body {
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-position var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   animation: gradient-pulse 5s ease infinite;
   text-decoration: none;
   display: inline-block;
@@ -235,7 +235,6 @@ body {
 .cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(100, 255, 218, 0.5);
-  background-position: 100% 50%;
 }
 .large-cta-button {
     padding: var(--spacing-md) var(--spacing-xl);
@@ -331,8 +330,6 @@ body {
   color: rgba(204, 214, 246, 0.8);
 }
 
-.testimonials-section {
-}
 .testimonials-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -373,8 +370,6 @@ body {
   padding-top: var(--spacing-sm);
 }
 
-.why-us-section {
-}
 .why-us-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -535,8 +530,6 @@ body {
   line-height: 1.7;
 }
 
-.faq-section {
-}
 .faq-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -908,8 +901,5 @@ body {
       height: 40px;
       bottom: var(--spacing-md);
       right: var(--spacing-md);
-  }
-  .scroll-top span {
-      font-size: 1.2rem;
   }
 }
