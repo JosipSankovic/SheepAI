@@ -1,99 +1,110 @@
+/* Wrapper za toggle gumb */
 .sidebar {
-    background-color: #f8f9fa;
-    border-right: 1px solid #dee2e6;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1100;
+}
+
+/* Gumb za otvaranje sidebar-a */
+.sidebar-toggle {
+  background: #2c3e50;
+  color: #ecf0f1;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: background 0.2s;
+}
+.sidebar-toggle:hover {
+  background: #34495e;
+}
+
+/* Tamni overlay iza sidebar-a */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+.sidebar-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sama navigacija (skrivena po defaultu) */
+.sidebar.sidebar-open,
+nav.sidebar-open {
+  transform: translateX(0);
+}
+nav.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  max-width: 80%;
+  background: #2c3e50;
+  padding-top: 1rem;
+  transform: translateX(-110%);
+  transition: transform 0.3s ease;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header s gumbom za zatvaranje */
+.sidebar-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(236,240,241,0.2);
+}
+.sidebar-close {
+  background: none;
+  border: none;
+  color: #ecf0f1;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.sidebar-close:hover {
+  color: #e74c3c;
+}
+
+/* Container stavki u sidebaru */
+.sidebar-items {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+}
+
+/* Pojedinačne poveznice */
+.sidebar-link {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+.sidebar-link:hover {
+  background: rgba(236,240,241,0.1);
+}
+
+/* Responzivno: na manjim ekranima proširi sidebar */
+@media (max-width: 600px) {
+  nav.sidebar {
+    width: 200px;
   }
-  
-  .sidebar-items {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .sidebar-link {
-    padding: 10px 15px;
-    text-decoration: none;
-    color: #333;
-    display: block;
-  }
-  
-  .sidebar-link:hover {
-    background-color: #e9ecef;
-  }
-  
-  .sidebar-header {
-    padding: 10px;
-    text-align: right;
-  }
-  
-  .sidebar-close {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* Mobile styles */
-  @media (max-width: 767px) {
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -200px;
-      width: 200px;
-      height: 100%;
-      transition: left 0.3s ease-in-out;
-      z-index: 999;
-    }
-  
-    .sidebar.sidebar-open {
-      left: 0;
-    }
-  
-    .sidebar-overlay {
-      display: none;
-    }
-  
-    .sidebar-overlay.visible {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 998;
-    }
-  
-    .sidebar-toggle {
-      display: block;
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 1000;
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-    }
-  }
-  
-  /* Desktop styles */
-  @media (min-width: 768px) {
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200px;
-      height: 100%;
-    }
-  
-    .sidebar-toggle {
-      display: none;
-    }
-  
-    .sidebar-close {
-      display: none;
-    }
-  
-    .sidebar-overlay {
-      display: none;
-    }
-  }
+}

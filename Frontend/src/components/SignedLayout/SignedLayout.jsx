@@ -1,13 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import BankFooter from "../Footer/Footer";
-import Sidebar from "../Sidebar/SideBar";
+import Sidebar from "../Sidebar/Sidebar";
 
 const SignedLayout = ({ children }) => {
   return (
     <div className="layout">
       <Sidebar />
-      <main>{children || <Outlet />}</main>
+      <main>
+        <Outlet />
+      </main>
       <BankFooter/>
     </div>
   );
