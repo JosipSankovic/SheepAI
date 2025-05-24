@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm";
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import {  Expose } from "class-transformer";
 import { Card } from "../card/card.entity";
+import { User } from "../user/user.entity";
 
 @Entity("bank_account")
 export class BankAccount {
@@ -17,6 +18,9 @@ export class BankAccount {
     @Column({type:"enum",enum:['euro','dollar']})
     currency:'euro'|'dollar';
 
-    @ManyToOne(()=>Card,(card)=>card.bank_account)
+    @OneToMany(()=>Card,(card)=>card.bank_account)
     cards:Card[]
+
+    @ManyToOne(()=>User,(user)=>user.bank_accounts)
+    user:User;
 }

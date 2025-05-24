@@ -10,4 +10,4 @@ import { CardService } from "./card.service";
     providers:[CardService]
 })
 
-export class UserModule{}
+export class CardModule{}

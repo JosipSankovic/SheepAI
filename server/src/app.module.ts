@@ -10,6 +10,10 @@ import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 import { Card } from './modules/card/card.entity';
 import { BankAccount } from './modules/bank_account/bank_account.entity';
+import { BankAccountModule } from './modules/bank_account/bank_account.module';
+import { CardModule } from './modules/card/card.module';
+import { TokenBlacklistModule } from './modules/token_blacklist/TokenBlacklist.module';
+import { TokenBlacklist } from './modules/token_blacklist/TokenBlacklist.entity';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -31,11 +35,14 @@ import { BankAccount } from './modules/bank_account/bank_account.entity';
         database:process.env.DB_DATABASE||"sheepai",
         timezone: 'Z',
         dateStrings: ['DATE', 'DATETIME'],// Ensure DATE and DATETIME are treated as strings
-        entities: [User,Card,BankAccount],
+        entities: [User,Card,BankAccount,TokenBlacklist],
         synchronize: true, // Be careful in production (consider setting to false)
       })
     }),
-    UserModule
+    UserModule,
+    BankAccountModule,
+    CardModule,
+    TokenBlacklistModule
   ],
   controllers: [AppController],
   providers: [AppService,{provide:APP_GUARD,useClass:ThrottlerGuard}],
