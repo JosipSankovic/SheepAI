@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import {  Expose } from "class-transformer";
 import { BankAccount } from "../bank_account/bank_account.entity";
@@ -36,6 +36,19 @@ export class User {
 
     @OneToMany(()=>BankAccount,(bank_account)=>bank_account.user,{cascade:true})
     bank_accounts:BankAccount[];
+
+
+    @Column({ nullable: true })
+    parentId?: number;
+
+    @ManyToOne(() => User, (user) => user.children, {
+    nullable: true,
+    onDelete: "SET NULL",
+    })
+    @JoinColumn({ name: "parentId" })
+    parent?: User;
+    @OneToMany(() => User, (user) => user.parent)
+    children: User[];
 
 
 }
