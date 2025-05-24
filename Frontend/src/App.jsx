@@ -9,16 +9,26 @@ import Contact from "./components/Contacts/Contacts";
 // import SignedHomePage from "./components/SignedHomePage/SignedHomePage";
 
 const App = () => {
+  const authTokenRef = useRef(null);
+  const [user, setUser] = useState(null);
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<PiggyBank />} />
-          <Route path="/contacts" element={<Contact />} />
-        </Routes>
-      </Layout>
+    <AuthContext.Provider value={{authTokenRef}} >
+      <UserContext.Provider value={{user,setUser}}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/" element={<ProtectedRoute/>}>
+              <Route path="/home" element={<PiggyBank />} />
+            </Route>
+          </Routes>
+        </Layout>
+      </Router>
+      </UserContext.Provider>
+      </AuthContext.Provider>
     </Router>
   );
 };
