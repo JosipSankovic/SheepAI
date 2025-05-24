@@ -1,1 +1,1 @@
-Pocetak
+Na pocetku stvorio je svjetlo
