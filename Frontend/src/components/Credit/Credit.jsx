@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Credit.css'; // Osigurajte da je putanja ispravna
+import { ChatAPI } from '../../api/Chat';
 
 const Credit = () => {
   // Stanja za chat funkcionalnost
@@ -76,11 +77,16 @@ const Credit = () => {
       }, 1000);
     });
   };
-
+  const pocetkaPoruka=useRef(false)
   // useEffect hook za inicijalnu poruku i logiku skrolanja
   useEffect(() => {
+    if (pocetkaPoruka.current==true){
+      return
+    }
+    pocetkaPoruka.current=true;
     // Postavi inicijalnu poruku od AI-ja kada se komponenta montira
     if (messages.length === 0) {
+      
       addAgentMessage("Pozdrav! Ja sam vaš AI financijski savjetnik za kredite. Kako vam mogu pomoći? Možete me pitati o ratama, uvjetima, ili maksimalnom iznosu kredita.");
     }
 
@@ -121,123 +127,34 @@ const Credit = () => {
     ]);
   };
 
-  // Glavna funkcija za simulaciju AI odgovora na korisnikov upit
-  const simulateAIResponse = async (userQuery) => {
-    const queryLower = userQuery.toLowerCase();
+ // Glavna funkcija za simulaciju AI odgovora na korisnikov upit
+const askOpencv = async (userQuery) => {
+  // Priprema historyja u OpenAI formatu
+  const _messages = messages.map((message) => ({
+    role: message.sender === 'agent' ? 'assistant' : 'user',
+    content: message.text,
+  }));
+  _messages.push({ role: 'user', content: userQuery });
 
-    // Logika za dohvaćanje i prikaz kreditnih ponuda
-    if (queryLower.includes('ponude kredita') || queryLower.includes('koji krediti')) {
-        setIsLoadingOffers(true); // Postavi loading status
-        try {
-            const offers = await simulateFetchCreditOffersApiCall();
-            setCreditOffers(offers); // Pohrani dohvaćene ponude
-            let responseText = "Trenutno nudimo sljedeće vrste kredita:\n";
-            offers.forEach(offer => {
-                responseText += `- **${offer.name}**: Kamatna stopa ${offer.interestRate}, iznos ${offer.minAmount}-${offer.maxAmount}, period ${offer.period}.\n`;
-            });
-            responseText += "\nKoji vas tip kredita zanima? Mogu vam pomoći s detaljima ili izračunom rate.";
-            addAgentMessage(responseText);
-        } catch (error) {
-            addAgentMessage(`Žao mi je, trenutno ne mogu dohvatiti kreditne ponude. Greška: ${error.message}`);
-        } finally {
-            setIsLoadingOffers(false); // Završi loading status
-        }
-        return;
-    }
+  try {
+    // Poziv Chat API-ju
+    const response = await ChatAPI.sendMessage(_messages);
+    // Ubaci odgovor asistenta u UI
+    addAgentMessage(response.data.message.content);
+  } catch (error) {
+    console.error('Chat API error:', error);
 
-    // Logika za izračun rate kredita i maksimalnog iznosa
-    if (queryLower.includes('kredit') && queryLower.includes('rata')) {
-      const incomeMatch = userQuery.match(/placu (\d+)/); // Pronađi plaću
-      const yearsMatch = userQuery.match(/(\d+) godin/); // Pronađi broj godina
-      const amountMatch = userQuery.match(/kredit na (\d+)/); // Pronađi traženi iznos (ako postoji)
+    // Ako dobijemo HTTP grešku s backendom, možete izvući detalje:
+    const errMsg =
+      error.response?.data?.message ||
+      error.message ||
+      'Nešto je pošlo po zlu pri slanju na Chat API.';
 
-      const income = incomeMatch ? parseFloat(incomeMatch[1]) : 0;
-      const years = yearsMatch ? parseInt(yearsMatch[1]) : 0;
-      const requestedAmount = amountMatch ? parseFloat(amountMatch[1]) : 0;
+    // Ubaci poruku o grešci od “assistanta”
+    addAgentMessage(`Greška: ${errMsg}`);
+  }
+};
 
-      if (income && years) {
-        const annualInterestRate = 0.045; // Simulirana godišnja kamatna stopa
-        const monthlyInterestRate = annualInterestRate / 12;
-        const numberOfPayments = years * 12;
-
-        let estimatedMonthlyPayment = 0;
-        let estimatedMaxLoan = 0;
-
-        if (requestedAmount > 0) {
-            // Izračun rate za specifično traženi iznos
-            estimatedMonthlyPayment = (requestedAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
-            if (estimatedMonthlyPayment > income * 0.45) { // Simulacija ograničenja opterećenja primanja (npr. 45%)
-                addAgentMessage(
-                  `S plaćom od ${income.toFixed(2)}€ i periodom od ${years} godina, mjesečna rata za **${requestedAmount.toFixed(2)}€** iznosila bi **${estimatedMonthlyPayment.toFixed(2)}€**. Međutim, to prelazi preporučeni postotak opterećenja primanja. Razmislite o manjem iznosu ili dužem periodu otplate.`
-                );
-                return;
-            } else {
-                 addAgentMessage(
-                    `Sa plaćom od ${income.toFixed(2)}€ i periodom od ${years} godina, mjesečna rata za **${requestedAmount.toFixed(2)}€** iznosila bi približno **${estimatedMonthlyPayment.toFixed(2)}€**.`
-                );
-            }
-        } else {
-            // Izračun maksimalnog iznosa kredita na temelju prihoda i perioda
-            const maxAffordablePayment = income * 0.35; // Npr. "ugodna" rata ne prelazi 35% primanja
-            estimatedMaxLoan = (maxAffordablePayment * (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments))) / monthlyInterestRate;
-            estimatedMonthlyPayment = maxAffordablePayment; // Ako je izračunato na temelju maksimalne rate
-            addAgentMessage(
-              `S vašom plaćom od ${income.toFixed(2)}€ i periodom otplate od ${years} godina, mogli biste potencijalno dobiti kredit do **${estimatedMaxLoan.toFixed(2)}€**, s procijenjenom mjesečnom ratom od oko **${estimatedMonthlyPayment.toFixed(2)}€**.`
-            );
-        }
-      } else {
-        // Ako nedostaju ključne informacije
-        addAgentMessage("Da bih vam procijenio ratu kredita ili maksimalni iznos, trebam vašu mjesečnu plaću i željeni period otplate u godinama. Npr. 'Ako imam plaću 1500 eura i zelim kredit na 30 godina koliko bi mi iznosila rata kredita i koliko bi mogao dici?'");
-      }
-      return;
-    }
-
-    // Logika za odgovaranje na pitanja o uvjetima specifičnog kredita
-    if (queryLower.includes('uvjeti') || queryLower.includes('uvjet') || queryLower.includes('detalji')) {
-        if (queryLower.includes('stambenog')) {
-            addAgentMessage("Za stambeni kredit potrebna je minimalna mjesečna plaća od 700€, kreditna sposobnost, i hipoteka na nekretninu. Mogu vam poslati više detalja na email ili dogovoriti poziv s našim savjetnikom.");
-            return;
-        }
-        if (queryLower.includes('gotovinskog')) {
-            addAgentMessage("Za gotovinski kredit uvjeti uključuju minimalnu plaću od 500€ i urednu kreditnu povijest. Nije potrebna namjena niti jamstvo.");
-            return;
-        }
-    }
-
-    // Logika za pokretanje procesa prijave za kredit (prikaz forme)
-    if (queryLower.includes('prijavi') || queryLower.includes('zahtjev')) {
-        addAgentMessage("U redu, mogu vam pomoći s prijavom za kredit. Kliknite 'Popuni zahtjev za kredit' ili mi recite vrstu kredita za koju ste zainteresirani pa ću predpopuniti formu.");
-        setShowLoanForm(true); // Prikaži formu za prijavu
-        return;
-    }
-
-    // Logika za provjeru statusa prijava
-    if (queryLower.includes('status prijave') || queryLower.includes('moje prijave')) {
-        if (loanApplications.length === 0) {
-            addAgentMessage("Trenutno nemate aktivnih prijava za kredit.");
-        } else {
-            let appStatuses = "Vaše trenutne prijave:\n";
-            loanApplications.forEach(app => {
-                appStatuses += `- ID: ${app.id}, Svrha: ${app.loanPurpose}, Iznos: ${app.desiredAmount}€, Status: ${app.status} (Poslano: ${app.submissionDate})\n`;
-            });
-            addAgentMessage(appStatuses);
-        }
-        return;
-    }
-
-    // Općenita pitanja i pozdravi
-    if (queryLower.includes('hvala') || queryLower.includes('super')) {
-      addAgentMessage("Nema na čemu! Tu sam da vam pomognem. Imate li još pitanja?");
-      return;
-    }
-    if (queryLower.includes('bok') || queryLower.includes('zdravo')) {
-        addAgentMessage("Pozdrav! Kako vam mogu pomoći danas s vašim kreditnim potrebama?");
-        return;
-    }
-
-    // Defaultni odgovor ako AI ne prepozna upit
-    addAgentMessage("Oprostite, nisam siguran da sam vas razumio. Mogu vam pomoći oko izračuna rata, uvjeta kredita, pokretanja prijave ili statusa vaših postojećih prijava. Molim vas da preformulirate pitanje.");
-  };
 
   // Funkcija za slanje poruke kada korisnik pritisne Enter ili gumb "Pošalji"
   const handleSendMessage = (e) => {
@@ -246,7 +163,7 @@ const Credit = () => {
       addUserMessage(inputMessage.trim()); // Dodaj korisnikovu poruku
       // Odmah skrolaj na dno kako bi korisnik vidio svoju poruku odmah nakon slanja
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      simulateAIResponse(inputMessage.trim()); // Pošalji korisnikovu poruku AI-u na obradu
+      askOpencv(inputMessage.trim()); // Pošalji korisnikovu poruku AI-u na obradu
       setInputMessage(''); // Očisti input polje
     }
   };

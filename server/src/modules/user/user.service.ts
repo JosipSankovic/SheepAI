@@ -14,6 +14,7 @@ export class UserService{
 
     async getUserById(Id:number):Promise<User>{
         const user=await this.userRepository.findOne({where:{Id:Id}});
+        console.log(user)
         if (!user )
             throw new NotFoundException('Worker not found');
         return user;

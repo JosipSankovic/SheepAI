@@ -124,7 +124,7 @@ function Login() {
           <div className="left-column">
             <h1>Login</h1>
             <p className="message">
-              Access your business info and reservation control
+              Access your bank accout
             </p>
             <form className="login-form" onSubmit={(e) => e.preventDefault()}>
               <input
@@ -163,12 +163,10 @@ function Login() {
           <div className="right-column">
             <h2 className="right-column-header">Welcome to Our Service</h2>
             <p className="right-column-text">
-              Manage your reservations and business details easily with our
+              Manage your bank account easily with our
               secure platform.
             </p>
-            <button className="right-column-btn" onClick={() => navigate("/signup")}>
-              Sign Up Now
-            </button>
+            
           </div>
         </div>
       </div>

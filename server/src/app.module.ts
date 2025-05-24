@@ -14,6 +14,7 @@ import { BankAccountModule } from './modules/bank_account/bank_account.module';
 import { CardModule } from './modules/card/card.module';
 import { TokenBlacklistModule } from './modules/token_blacklist/TokenBlacklist.module';
 import { TokenBlacklist } from './modules/token_blacklist/TokenBlacklist.entity';
+import { OpenAiModule } from './modules/openai/openai.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -42,7 +43,8 @@ import { TokenBlacklist } from './modules/token_blacklist/TokenBlacklist.entity'
     UserModule,
     BankAccountModule,
     CardModule,
-    TokenBlacklistModule
+    TokenBlacklistModule,
+    OpenAiModule
   ],
   controllers: [AppController],
   providers: [AppService,{provide:APP_GUARD,useClass:ThrottlerGuard}],
