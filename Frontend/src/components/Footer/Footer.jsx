@@ -8,10 +8,10 @@ const BankFooter = ({ show_newsletter = true }) => {
   const handleSubscription = () => {
     if (validateEmail(email)) {
       console.log("Submitting email:", email);
-      alert("Thank you for subscribing!");
+      alert("Hvala vam na pretplati!");
       setEmail("");
     } else {
-      alert("Please enter a valid email address");
+      alert("Molimo unesite ispravnu email adresu.");
     }
   };
 
@@ -25,12 +25,12 @@ const BankFooter = ({ show_newsletter = true }) => {
       {show_newsletter && (
         <div className="newsletter-block">
           <div className="newsletter-content">
-            <h2>Stay ahead of your competition</h2>
-            <p>Join our community</p>
+            <h2>Vaš financijski kompas. Budite u toku s inovacijama.</h2>
+            <p>Pridružite se našoj zajednici!</p>
             <div className="newsletter-form">
               <input
                 type="email"
-                placeholder="Your professional email"
+                placeholder="Vaša profesionalna email adresa"
                 className="newsletter-input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -40,11 +40,11 @@ const BankFooter = ({ show_newsletter = true }) => {
                 onClick={handleSubscription}
                 type="button"
               >
-                Get Started <FiArrowRight className="cta-icon" />
+                Započnite <FiArrowRight className="cta-icon" />
               </button>
             </div>
             <div className="privacy-assurance">
-              <span>Zero spam. Unsubscribe anytime.</span>
+              <span>Nema spama. Odjavite se bilo kada.</span>
             </div>
           </div>
         </div>
@@ -53,16 +53,16 @@ const BankFooter = ({ show_newsletter = true }) => {
       <div className="footer-grid">
         <div className="brand-column">
           <div className="brand-wrapper">
-            <img src="/Logo.webp" alt="Waysmaking" className="brand-logo" />
-            <p className="brand-statement">Create, Innovate, Adjust</p>
+            <img src="/otp-bank.png" alt="Vaša Pouzdana Banka" className="brand-logo" />
+            <p className="brand-statement">Vaša sigurnost, naš prioritet.</p>
             <div className="social-container">
-              <a href="#" className="social-link">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
                 <FiInstagram className="social-icon" />
               </a>
-              <a href="#" className="social-link">
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="social-link">
                 <FiFacebook className="social-icon" />
               </a>
-              <a href="#" className="social-link">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link">
                 <FiLinkedin className="social-icon" />
               </a>
             </div>
@@ -71,14 +71,14 @@ const BankFooter = ({ show_newsletter = true }) => {
 
         <div className="nav-columns">
           <div className="nav-group">
-            <h3 className="nav-header">Company</h3>
+            <h3 className="nav-header">Resursi</h3>
             <ul className="nav-list">
-              <li><a href="#">About</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Partners</a></li>
-              <li><a href="#">Contact</a></li>
-              <li><a href="#">Products</a></li>
-              <li><a href="#">Services</a></li>
+              <li><a href="#faq">Često postavljena pitanja</a></li>
+              <li><a href="#pogodnosti">Pogodnosti</a></li>
+              <li><a href="#iskustva">Iskustva klijenata</a></li>
+              <li><a href="#zašto-mi">Zašto mi</a></li>
+              <li><a href="#kontakt">Kontakt</a></li>
+              <li><a href="#usluge">Usluge</a></li>
             </ul>
           </div>
         </div>
@@ -87,12 +87,7 @@ const BankFooter = ({ show_newsletter = true }) => {
       <div className="legal-block">
         <div className="legal-content">
           <div className="copyright">
-            © {new Date().getFullYear()} OurBank. Your way of thinking our way of making.
-          </div>
-          <div className="legal-links">
-            <a href="privacy-policy">Privacy Policy</a>
-            <a href="terms-of-service">Terms of Service</a>
-            <a href="cookie-settings">Cookie Settings</a>
+            © {new Date().getFullYear()} Vaša Pouzdana Banka. Sva prava pridržana.
           </div>
         </div>
       </div>
