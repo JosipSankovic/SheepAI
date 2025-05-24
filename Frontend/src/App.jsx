@@ -13,6 +13,7 @@ import SignedLayout from "./components/SignedLayout/SignedLayout";
 import Credit from "./components/Credit/Credit";
 import FinancePlanner from "./components/FinancePlanner/FinancePlanner";
 import FinanceSplit from "./components/FinanceSplit/FinanceSplit";
+import Kids from "./components/Kids/Kids";
 // import SignedHomePage from "./components/SignedHomePage/SignedHomePage";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/" element={<ProtectedRoute/>}>
               <Route path="/home" element={<SignedLayout/>} >
                 <Route index path="/home" element={<PiggyBank/>}/>
+                <Route path="kids" element={<Kids/>}/>
                 <Route path="contacts" element={<Contact />}/>
                 <Route path="credit" element={<Credit/>} />
                 <Route path="planfinance" element={<FinancePlanner/>}/>

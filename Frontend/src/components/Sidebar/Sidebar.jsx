@@ -7,6 +7,7 @@ import { UserContext } from "../../utils";
 
 const sidebarItems = [
   { name: "Stanje", href: "" },
+  {name:"Kids",href:"kids"},
   { name: "Kontakti", href: "contacts" },
   { name: "Upit za kredit", href: "credit" },
   { name: "Planiraj financije", href: "planfinance" },
