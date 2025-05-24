@@ -1,0 +1,567 @@
+/* Osnovni stilovi za cijelu stranicu (preuzeti iz vašeg globalnog CSS-a ako postoji) */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--void-black);
+    color: var(--starlight);
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+/* Globalne CSS varijable za boje i razmake */
+:root {
+    --deep-space: #0a192f;
+    --starlight: #ccd6f6;
+    --neon-blue: #64ffda;
+    --galactic-purple: #6c63ff;
+    --void-black: #020c1b;
+    --glass-blur: 10px;
+    --transition-fast: 0.3s ease;
+    --radius-lg: 1rem;
+    --radius-md: 0.75rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.25rem;
+    --spacing-sm: 0.75rem;
+    --spacing-xl: 4rem;
+    --section-gap: 3rem;
+    --error-red: #ff6347;
+    --pending-orange: #ffa500;
+    --approved-green: #32cd32;
+    --chat-user-bubble: #6c63ff; /* Boja balona za korisničke poruke */
+    --chat-agent-bubble: #0e3049; /* Boja pozadine chat kontejnera i balona za AI */
+    --chat-input-bg: #1a3459; /* Boja pozadine input polja chata */
+}
+
+/* Reset box-sizing */
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* Stilovi za glavnu sekciju "Krediti & AI Asistent" */
+.credit-section {
+    padding: var(--spacing-lg) 5%;
+    text-align: center;
+    max-width: 900px; /* Ograničenje širine sekcije */
+    margin: var(--spacing-lg) auto; /* Centriranje sekcije */
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Dublja sjena */
+    background: linear-gradient(to bottom, rgba(10, 25, 47, 0.85), rgba(2, 12, 27, 0.9)); /* Gradijent pozadina */
+    backdrop-filter: blur(var(--glass-blur)); /* Efekt zamućenja pozadine */
+    animation: slideUp 0.6s ease-out both; /* Animacija pri učitavanju */
+    color: var(--starlight);
+    display: flex;
+    flex-direction: column; /* Elementi unutar sekcije se slažu vertikalno */
+}
+
+.credit-section h2 {
+    font-size: 2.5rem;
+    color: var(--neon-blue);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+}
+
+.credit-section h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--neon-blue);
+}
+
+.credit-section .section-description {
+    font-size: 1.1rem;
+    color: rgba(204, 214, 246, 0.8);
+    margin-bottom: var(--spacing-xl);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Stilovi za chat kontejner */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 600px; /* Fiksna visina chat prozora */
+    background: var(--chat-agent-bubble);
+    border-radius: var(--radius-md);
+    overflow: hidden; /* Skriva sadržaj koji prelazi */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Unutarnja sjena */
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    margin-bottom: var(--spacing-lg); /* Razmak ispod chata */
+}
+
+.messages-display {
+    flex-grow: 1; /* Zauzima sav raspoloživ prostor unutar chata */
+    padding: var(--spacing-md);
+    overflow-y: auto; /* Omogućuje vertikalno skrolanje */
+    display: flex;
+    flex-direction: column; /* Poruke se nižu vertikalno */
+    gap: 10px; /* Razmak između poruka */
+    scrollbar-width: thin; /* Firefox scrollbar stil */
+    scrollbar-color: var(--neon-blue) rgba(204, 214, 246, 0.1);
+}
+
+/* Webkit scrollbar stilovi (Chrome, Safari) */
+.messages-display::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-display::-webkit-scrollbar-track {
+  background: rgba(204, 214, 246, 0.1);
+  border-radius: 10px;
+}
+
+.messages-display::-webkit-scrollbar-thumb {
+  background: var(--neon-blue);
+  border-radius: 10px;
+}
+
+/* Stilovi za pojedinačne poruke (balone) */
+.message-bubble {
+    max-width: 75%; /* Maksimalna širina poruke */
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.4;
+    font-size: 1rem;
+    word-wrap: break-word; /* Razbija dugačke riječi */
+    animation: fadeIn 0.3s ease-out forwards; /* Animacija pojavljivanja poruke */
+}
+
+.message-bubble.user {
+    background-color: var(--chat-user-bubble);
+    color: var(--starlight);
+    align-self: flex-end; /* Korisnikove poruke desno */
+    border-bottom-right-radius: 5px; /* Manji kut u dnu desno */
+}
+
+.message-bubble.agent {
+    background-color: rgba(100, 255, 218, 0.1);
+    color: var(--neon-blue);
+    align-self: flex-start; /* AI poruke lijevo */
+    border-bottom-left-radius: 5px; /* Manji kut u dnu lijevo */
+    border: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+/* Stilovi za indikator "tipkanja" AI-ja */
+.typing-indicator {
+    background-color: rgba(100, 255, 218, 0.05);
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: none; /* Ukloni fadeIn za typing indicator */
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: rgba(100, 255, 218, 0.7);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both; /* Animacija "skakanja" točkica */
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Stilovi za formu unosa poruke */
+.message-input-form {
+    display: flex;
+    padding: var(--spacing-md);
+    border-top: 1px solid rgba(204, 214, 246, 0.1);
+    background: var(--chat-input-bg);
+}
+
+.message-input-form input {
+    flex-grow: 1; /* Polje zauzima sav dostupan prostor */
+    padding: 12px;
+    border: 1px solid rgba(204, 214, 246, 0.2);
+    border-radius: 50px; /* Zaobljeni rubovi */
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--starlight);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.message-input-form input::placeholder {
+    color: rgba(204, 214, 246, 0.5);
+}
+
+.message-input-form input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+}
+
+.message-input-form button {
+    margin-left: 10px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--galactic-purple));
+    color: var(--void-black);
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.message-input-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(100, 255, 218, 0.4);
+}
+
+/* Stilovi za kontejner forme za prijavu kredita */
+.loan-application-form-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(204, 214, 246, 0.1);
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.loan-application-form-container h3 {
+    font-size: 2rem;
+    color: var(--neon-blue);
+    margin-bottom: var(--spacing-lg);
+}
+
+.loan-form {
+    display: grid;
+    grid-template-columns: 1fr; /* Jedna kolona na manjim ekranima */
+    gap: var(--spacing-md);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: var(--starlight);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.loan-form input[type="text"],
+.loan-form input[type="number"],
+.loan-form select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid rgba(204, 214, 246, 0.3);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--starlight);
+    font-size: 1rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.loan-form input:focus,
+.loan-form select:focus {
+    outline: none;
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+}
+
+.loan-form select {
+    appearance: none; /* Uklanja defaultni stil select boxa */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23ccd6f6" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%;
+    background-size: 0.8em auto;
+    padding-right: 2.5em; /* Osiguraj prostor za SVG strelicu */
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+/* Stilovi za gumbe CTA i Secondary */
+.cta-button, .secondary-button {
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, var(--neon-blue), var(--galactic-purple));
+    color: var(--void-black);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
+}
+
+.secondary-button {
+    background: none;
+    border: 1px solid rgba(204, 214, 246, 0.4);
+    color: rgba(204, 214, 246, 0.8);
+}
+
+.secondary-button:hover {
+    background-color: rgba(204, 214, 246, 0.1);
+    color: var(--starlight);
+    border-color: var(--starlight);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Stilovi za sekciju pregleda prijava za kredit */
+.loan-applications-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(204, 214, 246, 0.1);
+    text-align: left; /* Poravnanje teksta unutar sekcije */
+}
+
+.loan-applications-section h3 {
+    font-size: 2rem;
+    color: var(--neon-blue);
+    margin-bottom: var(--spacing-lg);
+    text-align: center; /* Naslov centriran */
+}
+
+.no-applications {
+    font-size: 1.1rem;
+    color: rgba(204, 214, 246, 0.7);
+    padding: var(--spacing-md);
+    text-align: center;
+}
+
+.applications-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsivne kolone */
+    gap: var(--spacing-lg);
+}
+
+.application-item {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: left;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(204, 214, 246, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color var(--transition-fast);
+}
+
+/* Stilovi za statusne trake */
+.application-item.status-na-cekanju {
+    border-left: 5px solid var(--pending-orange);
+}
+.application-item.status-odobreno {
+    border-left: 5px solid var(--approved-green);
+}
+.application-item.status-odbijeno {
+    border-left: 5px solid var(--error-red);
+}
+
+
+.app-details p {
+    font-size: 0.95rem;
+    color: rgba(204, 214, 246, 0.7);
+    margin-bottom: 0.5rem;
+}
+
+.app-details p span {
+    font-weight: bold;
+    color: var(--starlight);
+}
+
+.application-status {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.status-na-cekanju .application-status {
+    color: var(--pending-orange);
+}
+.status-odobreno .application-status {
+    color: var(--approved-green);
+}
+.status-odbijeno .application-status {
+    color: var(--error-red);
+}
+
+.submission-date {
+    font-size: 0.85rem;
+    color: rgba(204, 214, 246, 0.5);
+    margin-top: 0.5rem;
+}
+
+.cancel-button {
+    margin-top: var(--spacing-md);
+    align-self: center; /* Centriraj gumb unutar kartice */
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-color: var(--error-red);
+    color: var(--error-red);
+    background: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cancel-button:hover {
+    background-color: rgba(255, 99, 71, 0.1);
+    color: var(--error-red);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(255, 99, 71, 0.3);
+}
+
+/* Opći stilovi za onemogućene elemente */
+.loan-form input:disabled,
+.loan-form select:disabled,
+.loan-form button:disabled,
+.message-input-form input:disabled,
+.message-input-form button:disabled,
+.cancel-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Keyframe animacije */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Media Queries za responzivnost */
+@media (max-width: 768px) {
+    .credit-section {
+        padding: var(--spacing-md) 3%;
+        margin: var(--spacing-md) auto;
+    }
+
+    .credit-section h2 {
+        font-size: 2rem;
+    }
+    .credit-section .section-description {
+        font-size: 1rem;
+    }
+    .chat-container {
+        height: 500px;
+    }
+    .message-bubble {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+    .message-input-form input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    .message-input-form button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .loan-form {
+        gap: var(--spacing-sm);
+    }
+    .form-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    .loan-form .cta-button, .loan-form .secondary-button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+    .loan-application-form-container h3, .loan-applications-section h3 {
+        font-size: 1.5rem;
+    }
+    .applications-list {
+        grid-template-columns: 1fr; /* Jedna kolona na manjim ekranima */
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .credit-section {
+        padding: var(--spacing-sm) 2%;
+    }
+    .credit-section h2 {
+        font-size: 1.8rem;
+    }
+    .section-description {
+        font-size: 0.9rem;
+    }
+    .chat-container {
+        height: 400px;
+    }
+    .message-input-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .message-input-form button {
+        margin-left: 0;
+        width: 100%;
+    }
+    .loan-application-form-container h3, .loan-applications-section h3 {
+        font-size: 1.3rem;
+    }
+    .loan-form input, .loan-form select {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .app-details p {
+        font-size: 0.85rem;
+    }
+}
