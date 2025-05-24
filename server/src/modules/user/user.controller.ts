@@ -22,6 +22,7 @@ import { TokenUtils } from '../common/TokenUtils';
 import { TokenBlacklistService } from '../token_blacklist/TokenBlacklist.service';
 import { HandleError } from '../common/CustomErrors';
 import { AuthGuard } from '../common/auth.guard';
+import { TokenPayload } from '../common/common';
 @Controller('user')
 export class UserController {
   constructor(
@@ -31,11 +32,33 @@ export class UserController {
 
   ) {}
 
-    @Get("/getUser/:id")
-    async getUser(@Param() id:number):Promise<User>{
-      let user=await this.userService.getUser(id);
-      return user
+    @Get('getUser')
+  @UseGuards(AuthGuard)
+  async getUser(
+    @Req() req: Request | any,
+    @Res() res: Response,
+  ): Promise<Response> {
+    const user_token: TokenPayload = req['user'];
+    if (
+      user_token == undefined ||
+      user_token == null ||
+      user_token.Id == undefined ||
+      user_token.Id == null
+    ) {
+      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
+    const user: User | null = await this.userService.getUserById(
+      user_token.Id,
+    );
+    if (user == null)
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    const access_token: string = this.tokenUtils.generateAccessToken(user);
+
+    const userDTO = plainToInstance(UserEssencialDTO, user, {
+      excludeExtraneousValues: true,
+    });
+    return res.json({ token: access_token, user: { ...userDTO } });
+  }
 
     @Post("/login")
     @Throttle({default:{limit:10,ttl:60*1000}})

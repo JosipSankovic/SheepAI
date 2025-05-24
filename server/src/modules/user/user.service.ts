@@ -12,9 +12,10 @@ export class UserService{
         private userRepository:Repository<User>
     ){}
 
-    async getUser(userId:number):Promise<User>{
-        let user=await this.userRepository.findOne({where:{Id:userId}})
-        if (!user) throw new NotFoundException()
+    async getUserById(Id:number):Promise<User>{
+        const user=await this.userRepository.findOne({where:{Id:Id}});
+        if (!user )
+            throw new NotFoundException('Worker not found');
         return user;
     }
 
@@ -22,7 +23,7 @@ export class UserService{
         try{
             let user_result = await this.userRepository.findOne({where:{email:_user.email}})
             if(!user_result)throw new NotFoundException()
-            let isValid=await bcrypt.compare(user_result.password,_user.password)
+            let isValid=await bcrypt.compare(_user.password,user_result.password)
             if(!isValid)throw new UnauthorizedException("Wrong password");
             return user_result;
         }catch(ex){

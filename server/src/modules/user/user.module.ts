@@ -11,7 +11,7 @@ import { TokenBlacklist } from "../token_blacklist/TokenBlacklist.entity";
 @Module({
     imports:[TypeOrmModule.forFeature([User,TokenBlacklist])],
     controllers:[UserController],
-    providers:[UserService,TokenUtils,AuthGuard,TokenBlacklistService]
+    providers:[UserService,TokenUtils,AuthGuard,TokenBlacklistService,TokenUtils]
 })
 
 export class UserModule{}
