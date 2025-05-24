@@ -10,4 +10,4 @@ import { BankAccountService } from "./bank_account.service";
     providers:[BankAccountService]
 })
 
-export class UserModule{}
+export class BankAccountModule{}

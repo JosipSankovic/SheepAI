@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, ManyToOne } from "typeorm";
+import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import {  Expose } from "class-transformer";
+import { BankAccount } from "../bank_account/bank_account.entity";
 
 @Entity("user")
 export class User {
@@ -33,5 +34,36 @@ export class User {
     @IsOptional()
     OIB:string;
 
+    @OneToMany(()=>BankAccount,(bank_account)=>bank_account.user,{cascade:true})
+    bank_accounts:BankAccount[];
+
+
+}
+
+export class UserLoginDTO{
+    @Expose()
+    @IsString()
+    @IsEmail()
+    @IsNotEmpty()
+    email:string;
+
+    @Expose()
+    @IsString()
+    @IsNotEmpty()
+    password:string;
+}
+
+export class UserEssencialDTO{
+    @Expose()
+    @IsString()
+    name:string;
+
+    @Expose()
+    @IsString()
+    last_name:string;
+
+    @Expose()
+    @IsDate()
+    date_of_birth:Date;
 
 }
