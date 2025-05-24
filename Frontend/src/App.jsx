@@ -9,6 +9,7 @@ import Contact from "./components/Contacts/Contacts";
 import { AuthContext, UserContext } from "./utils";
 import Login from "./components/Login/Login";
 import ProtectedRoute from "./components/Protected/ProtectedRoute";
+import Kids from "./components/Kids/Kids";
 // import SignedHomePage from "./components/SignedHomePage/SignedHomePage";
 
 const App = () => {
@@ -24,6 +25,8 @@ const App = () => {
             <Route path="/login" element={<Login/>} />
             <Route path="/" element={<ProtectedRoute/>}>
               <Route path="/home" element={<PiggyBank />} />
+              <Route path="/contacts" element={<Contact />} />
+              <Route path="/kids" element={<Kids />} />
             </Route>
           </Routes>
       </UserContext.Provider>
