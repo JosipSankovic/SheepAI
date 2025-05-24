@@ -1,0 +1,205 @@
+:root {
+    --deep-space: #0a192f;
+    --starlight: #ccd6f6;
+    --neon-blue: #64ffda;
+    --galactic-purple: #6c63ff;
+    --void-black: #020c1b;
+  }
+  
+  .notfound-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, var(--void-black), var(--deep-space));
+    overflow: hidden;
+  }
+  
+  .notfound-wrapper.light {
+    --deep-space: #f0f4f8;
+    --starlight: #333;
+    --void-black: #e0e7ff;
+    --neon-blue: #38a169;
+    --galactic-purple: #4c51bf;
+  }
+  
+  #tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 1rem;
+  }
+  
+  .hero-title {
+    font-size: 5rem;
+    color: var(--galactic-purple);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  
+  .hero-subtitle {
+    color: rgba(204, 214, 246, 0.8);
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .search-form {
+    display: inline-flex;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(100, 255, 218, 0.5);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .search-input {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    color: var(--starlight);
+    font-size: 1rem;
+    outline: none;
+    width: 200px;
+  }
+  
+  .search-input::placeholder {
+    color: rgba(204, 214, 246, 0.6);
+  }
+  
+  .search-input:focus {
+    box-shadow: 0 0 8px var(--neon-blue);
+  }
+  
+  .search-button {
+    padding: 0.75rem;
+    background: var(--neon-blue);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 0 999px 999px 0;
+    transition: background 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background: var(--galactic-purple);
+  }
+  
+  .suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--deep-space);
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 80%;
+    max-width: 300px;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    z-index: 2;
+  }
+  
+  .suggestion-item {
+    padding: 0.5rem 1rem;
+    color: var(--starlight);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .suggestion-item:hover,
+  .suggestion-item.selected {
+    background: var(--galactic-purple);
+  }
+  
+  .no-results {
+    color: var(--starlight);
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .notfound-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--neon-blue);
+    color: var(--void-black);
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .notfound-button:hover {
+    background-color: var(--galactic-purple);
+    color: var(--starlight);
+    transform: translateY(-2px);
+  }
+  
+  .spaceship {
+    position: absolute;
+    bottom: 5%;
+    right: 10%;
+    width: 120px;
+    animation: float 4s ease-in-out infinite;
+    z-index: 1;
+    cursor: pointer;
+  }
+  
+  .theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--starlight);
+  }
+  
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .hero-content,
+    .hero-title,
+    .hero-subtitle,
+    .search-form,
+    .notfound-button,
+    .spaceship {
+      transition: none;
+      animation: none;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .hero-title {
+      font-size: 6rem;
+    }
+    .search-input {
+      width: 300px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .hero-title {
+      font-size: 7rem;
+    }
+  }
