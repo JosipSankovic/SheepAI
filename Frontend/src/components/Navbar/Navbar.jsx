@@ -13,7 +13,7 @@ const Navbar = () => {
     // { name: 'About', href: '/about' },
     // { name: 'Careers', href: '/careers' },
     // { name: 'Partners', href: '/partners' },
-    { name: 'Prijavi se', href: '/home' },
+    { name: 'Prijavi se', href: '/login' },
     { name: 'Registiraj se', href: '/product' },
   ];
 
