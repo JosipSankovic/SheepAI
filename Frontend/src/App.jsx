@@ -18,7 +18,6 @@ const App = () => {
     <Router>
     <AuthContext.Provider value={{authTokenRef}} >
       <UserContext.Provider value={{user,setUser}}>
-        <Layout>
           <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Layout />} />
@@ -27,7 +26,6 @@ const App = () => {
               <Route path="/home" element={<PiggyBank />} />
             </Route>
           </Routes>
-        </Layout>
       </UserContext.Provider>
       </AuthContext.Provider>
     </Router>
